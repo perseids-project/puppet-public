@@ -1,5 +1,5 @@
 #!/bin/bash
-PUPPET_REPO="git@github.com:perseids-project/perseids-puppet.git"
+PUPPET_REPO="git@github.com:perseids-project/puppet-public.git"
 HOSTNAME=$1
 BRANCH=$2
 PERSEIDS_ENV=$3
