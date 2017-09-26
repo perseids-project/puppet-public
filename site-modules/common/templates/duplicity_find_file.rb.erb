@@ -1,0 +1,49 @@
+#!/usr/bin/ruby
+
+RESTORE_DIR="/mnt/restore"
+FILENAME=ARGV[0]
+BACKUP=ARGV[1]
+RANGE=ARGV[2].to_i
+
+S3_URL="s3+http://<%= @s3_bucket %>/#{BACKUP}"
+ENV['AWS_ACCESS_KEY_ID']="<%= @aws_access_key %>"
+ENV['AWS_SECRET_ACCESS_KEY']="<%= @aws_secret_key %>"
+
+def file_found?(days)
+  system("rm -rf /mnt/restore-test")
+  system("duplicity --s3-use-new-style --no-encryption --file-to-restore #{FILENAME} --restore-time #{days}D #{S3_URL} /mnt/restore-test >/dev/null 2>&1")
+  return $?.exitstatus == 0
+end
+
+def binary_search(lo, hi)
+  found = false
+  while (! found) && (lo < hi)
+    mid = lo + ((hi-lo)/2).to_i
+    print "Trying #{mid} days... "
+    if file_found?(mid)
+      puts "found"
+      found = true
+    else
+      puts "not found"
+      lo = mid + 1
+    end
+  end
+  if found 
+    mid 
+  else 
+    nil
+  end
+end
+  
+latest_version = binary_search(0, RANGE)
+if latest_version.nil?
+  print "Not found"
+else 
+  latest_version + latest_version+1
+  print "Restoring latest version found at #{latest_version} days old... "
+  restore_dir = "#{RESTORE_DIR}/#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}"
+  restore_file = FILENAME.split('/').last
+  system("mkdir -p #{restore_dir}")
+  system("duplicity --s3-use-new-style --no-encryption --file-to-restore #{FILENAME} --restore-time #{latest_version}D #{S3_URL} #{restore_dir}/#{restore_file} >/dev/null 2>&1")
+  puts "done. Restored file is at #{restore_dir}/#{restore_file}"
+end

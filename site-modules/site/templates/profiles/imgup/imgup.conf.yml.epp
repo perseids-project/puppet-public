@@ -1,0 +1,46 @@
+<%- | String[1] $allow_origin,
+      String[1] $url_prefix,
+      String[1] $app_dir,
+| -%>
+# bind to address
+addr: '0.0.0.0'
+
+# run on port
+port: 1234
+
+# accept requests from
+allow_origin: <%= $allow_origin %>
+
+# url prefix
+# could be host and port
+# could be something more exotic if running behind a proxy
+url_prefix: <%= $url_prefix %>
+
+# application root directory
+app_dir: <%= $app_dir %>
+
+# rbenv user
+# needed by init.d
+rbenv_user: 'deployer'
+
+# sidekiq
+sidekiq_port: 9494
+sidekiq_log: "<%= $app_dir %>/log/sidekiq.log"
+sidekiq_pid: 'pid/sidekiq.pid'
+sidekiq_initd: '/etc/init.d/sidekiq'
+
+# redis
+redis_port: 6379
+redis_log: "<%= $app_dir %>/log/redis.log"
+redis_pid: "<%= $app_dir %>/pid/redis.pid"
+redis_dir: "<%= $app_dir %>'/redis"
+redis_server: '/usr/bin/redis-server'
+redis_cli: '/usr/bin/redis-cli'
+redis_initd: '/etc/init.d/redis'
+
+# img storage dirs
+upload: "upload-mnt"
+resize: "resize"
+
+# temp image
+tmp_img: 'public/img/processing.jpg'

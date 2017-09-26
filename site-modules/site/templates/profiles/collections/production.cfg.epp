@@ -1,0 +1,3 @@
+<%- | String[1] $marmotta_url,
+| -%>
+RDA_API_LOCATION = "<%= $marmotta_url %>"

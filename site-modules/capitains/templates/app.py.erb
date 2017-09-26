@@ -1,0 +1,77 @@
+# -*- coding: utf-8 -*-
+
+from flask import Flask, request
+from flask_nemo import Nemo
+from flask_nemo.chunker import level_grouper, scheme_chunker
+from flask_nemo.query.resolve import Resolver, HTTPRetriever
+from flask_nemo.query.interface import SimpleQuery
+from capitains_nautilus.flask_ext import FlaskNautilus, WerkzeugCacheWrapper
+from werkzeug.contrib.cache import RedisCache
+from flask_cache import Cache
+from pkg_resources import resource_filename
+from perseus_nemo_ui import PerseusNemoUi
+from nemo_arethusa_plugin import Arethusa
+from nemo_oauth_plugin import NemoOauthPlugin
+from nemo_plokamos_plugin import PlokamosPlugin
+from MyCapytain.common.reference import URN
+import os
+     
+d = "<%= @data_root %>"
+app = Flask("Nautilus")
+app.secret_key = 'p3rs31ds0authk3y'
+perseids_api_key='b41643be66e579e30bbd38327f53494db01f272c8a8cb026df44aef01f8136a8'
+perseids_api_secret='ed44e66357b2b494c30b984ae8d52223e9a14e4f34a556437a78fa8a94a56ea9'
+base_url='https://sosol.perseids.org/sosol/api/v1/'
+access_token_url='https://sosol.perseids.org/sosol/oauth/token'
+authorize_url='https://sosol.perseids.org/sosol/oauth/authorize'
+nautilus_cache = RedisCache("<%= scope.lookupvar('capitains::redis_host') %>", port=6379, default_timeout=0)
+nautilus = FlaskNautilus(
+    app=app,
+    prefix="/api/cts",
+    name="nautilus",
+    resources=[os.path.join(d,o) for o in os.listdir(d) if os.path.isdir(os.path.join(d,o))],
+    parser_cache=WerkzeugCacheWrapper(nautilus_cache),
+    http_cache=Cache(config={'CACHE_TYPE': "simple"})
+)
+
+# Setup the Query Interface
+# this is temporary to allow for demo of functionality 
+# should eventually call to a collections api
+#query = SimpleQuery(
+#    [
+#        ("urn:cts:latinLit:phi0448.phi001.perseus-lat2:2.1","http://sosol.perseids.org/sosol/dmm_api/item/TreebankCite/29305","http://data.perseus.org/rdfvocab/treebank")
+#    ],
+#    resolver=Resolver(HTTPRetriever())
+#)
+
+# We set up Nemo
+nemo = Nemo(
+    app=app,
+    name="nemo",
+    base_url="",
+    api_url="/api/cts",
+    retriever=nautilus.retriever,
+    chunker={
+        "default": level_grouper,
+        "urn:cts:pdlrefwk:viaf88890045.003.perseus-eng1": scheme_chunker,
+        "urn:cts:pdlpsci:bodin.livrep.perseus-lat1": scheme_chunker,
+        "urn:cts:pdlpsci:bodin.livrep.perseus-fre1": scheme_chunker,
+        "urn:cts:pdlpsci:bodin.livrep.perseus-eng1": scheme_chunker
+    },
+    plugins=[
+        PerseusNemoUi(),
+        NemoOauthPlugin(app,name='perseids',oauth_access_token_url=access_token_url,oauth_authorize_url=authorize_url,
+                        oauth_base_api_url=base_url,oauth_callback_url='https://cts.perseids.org/oauth/authorized',
+                        oauth_key=perseids_api_key,oauth_scope='read',oauth_secret=perseids_api_secret),
+        PlokamosPlugin(
+          annotation_update_endpoint="https://annotation.perseids.org/marmotta/sparql/update",
+          annotation_select_endpoint="https://annotation.perseids.org/marmotta/sparql/select")
+    ],
+    transform={
+        "default": resource_filename("perseus_nemo_ui","data/assets/static/xslt/epidocShort.xsl")
+    }
+)
+
+app.debug = True
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0')

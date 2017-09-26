@@ -1,0 +1,15 @@
+<%- | String[1] $sosol_url,
+      String[1] $llt_url,
+      String[1] $editor_url,
+      String[1] $cts_url
+| -%>
+            
+# -*- coding: utf-8 -*-
+alignment = {
+    "endpoint.create" : "<%= $sosol_url %>/dmm_api/create/item/AlignmentCite/DOC_REPLACE",
+    "tokenization.endpoint" : "<%= $llt_url %>/segtok",
+    "tokenization.xslt" : "/apps/static/xslt/segtok_to_align.xsl",
+    "editorUrl" : "<%= $editor_url %>",
+    "collection" : "urn:cite:perseus:align",
+    "workListUrl" : "<%= $cts_url %>",
+}

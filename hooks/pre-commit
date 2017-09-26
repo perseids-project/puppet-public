@@ -1,0 +1,33 @@
+#!/bin/bash
+if ! hash puppet-lint 2>/dev/null; then
+  echo Please \'sudo gem install puppet-lint\'
+  exit 1
+fi
+if ! hash puppet 2>/dev/null; then
+  echo Please \'sudo gem install puppet\'
+  exit 1
+fi
+
+for i in $(git diff --cached --name-only --diff-filter=ACM |grep -e \\.pp$); do
+  echo Checking $i...
+  puppet-lint --fail-on-warnings --no-140chars-check $i
+  if [[ $? -ne 0 ]]; then
+    syntax_is_bad=1
+  fi
+  puppet parser validate $i
+  if [[ $? -ne 0 ]]; then
+    syntax_is_bad=1
+  fi
+done
+
+for i in $(git diff --cached --name-only --diff-filter=ACM |grep -e \\.epp$); do
+  echo Checking $i...
+  puppet epp validate $i
+  if [[ $? -ne 0 ]]; then
+    syntax_is_bad=1
+  fi
+done
+
+if [[ $syntax_is_bad -eq 1 ]]; then
+  exit 1
+fi

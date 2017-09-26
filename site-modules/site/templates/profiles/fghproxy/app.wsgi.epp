@@ -1,0 +1,126 @@
+<%- | 
+  String[1] $app_root,
+  String[1] $client_secret,
+  String[1] $github_token,
+| -%>
+import os
+import sys
+
+sys.path.append('<%= $app_root %>')
+
+from flask import Flask
+from flask_github_proxy import GithubProxy
+from flask_github_proxy.models import Author
+
+application = Flask("name")
+proxy = GithubProxy(
+    "/perseids_syriaca",
+    "perseids-proxy-user/srophe-app-data",  # /perseids/push/path/to/file
+    "srophe/srophe-app-data",
+    secret="<%= $client_secret %>",
+    token="<%= $github_token %>",
+    app=application,
+    origin_branch="master",
+    default_author=Author(
+        "Github Proxy",
+        "perseids-proxy@github.com"
+    )
+)
+
+jmh_proxy = GithubProxy(
+    "/perseids_jmhtrees",
+    "perseids-proxy-user/harrington_trees",  # /perseids/push/path/to/file
+    "perseids-project/harrington_trees",
+    secret="<%= $client_secret %>",
+    token="<%= $github_token %>",
+    app=application,
+    origin_branch="master",
+    default_author=Author(
+        "Github Proxy",
+        "perseids-proxy@github.com"
+    )
+)
+
+rg_proxy = GithubProxy(
+    "/perseids_rgtrees",
+    "perseids-proxy-user/tree_submissions",
+    "rgorman/tree_submissions",
+    secret="<%= $client_secret %>",
+    token="<%= $github_token %>",
+    app=application,
+    origin_branch="master",
+    default_author=Author(
+        "Github Proxy",
+        "perseids-proxy@github.com"
+    )
+)
+
+bodin_proxy = GithubProxy(
+    "/perseids_bodin",
+    "perseids-proxy-user/perseids_bodin",
+    "TuftsUniversity/perseids_bodin",
+    secret="<%= $client_secret %>",
+    token="<%= $github_token %>",
+    app=application,
+    origin_branch="master",
+    default_author=Author(
+        "Github Proxy",
+        "perseids-proxy@github.com"
+    )
+)
+
+sematia_proxy = GithubProxy(
+    "/perseids_sematia",
+    "perseids-proxy-user/sematia-tb",
+    "ezhenrik/sematia-tb",
+    secret="<%= $client_secret %>",
+    token="<%= $github_token %>",
+    app=application,
+    origin_branch="master",
+    default_author=Author(
+        "Github Proxy",
+        "perseids-proxy@github.com"
+    )
+)
+
+zagreb_proxy = GithubProxy(
+    "/perseids_zagreb",
+    "perseids-proxy-user/zagreb-psl",
+    "nevenjovanovic/zagreb-psl",
+    secret="<%= $client_secret %>",
+    token="<%= $github_token %>",
+    app=application,
+    origin_branch="master",
+    default_author=Author(
+        "Github Proxy",
+        "perseids-proxy@github.com"
+    )
+)
+
+strobino_proxy = GithubProxy(
+    "/perseids_strobino",
+    "perseids-proxy-user/Tufts-Medieval-Latin-Strobino-",
+    "strobinor/Tufts-Medieval-Latin-Strobino-",
+    secret="<%= $client_secret %>",
+    token="<%= $github_token %>",
+    app=application,
+    origin_branch="master",
+    default_author=Author(
+        "Github Proxy",
+        "perseids-proxy@github.com"
+    )
+)
+
+dm_proxy = GithubProxy(
+    "/perseids_dm",
+    "perseids-proxy-user/digital_milliet",
+    "perseids-project/digital_milliet",
+    secret="<%= $client_secret %>",
+    token="<%= $github_token %>",
+    app=application,
+    origin_branch="master",
+    default_author=Author(
+        "Github Proxy",
+        "perseids-proxy@github.com"
+    )
+)

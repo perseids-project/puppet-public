@@ -1,0 +1,10 @@
+<%- | String[1] $jruby_version,
+      String[1] $tomcat_pwd,
+| -%>
+#!/bin/sh
+rvm use <%= $jruby_version %>
+export JRUBY_OPTS='--2.0 -X-C -J-Xmx1024m -J-XX:+UseConcMarkSweepGC'
+bundle install
+bundle exec warble war
+curl --user admin:<%= $tomcat_pwd %> --upload-file cite_mapper.war "http://localhost:8080/manager/deploy?path=/cite_mapper&update=true"
+

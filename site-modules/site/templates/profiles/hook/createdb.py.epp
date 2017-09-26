@@ -1,0 +1,36 @@
+<%- | String[1] $app_root,
+      String[1] $db_uri,
+      String[1] $secret_key,
+      String[1] $client_id,
+      String[1] $client_secret,
+| -%>
+import os
+import sys
+
+sys.path.append('<%= $app_root %>')
+
+from flask import Flask
+from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
+import flask_github
+
+import os
+
+from Hook.ext import HookUI
+
+app = Flask("Hook")
+app.config['SQLALCHEMY_DATABASE_URI'] = '<%= $db_uri %>'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['GITHUB_CLIENT_ID'] = "<%= $client_id %>"
+app.config['GITHUB_CLIENT_SECRET'] = "<%= $client_secret %>"
+app.config["SECRET_KEY"] = "<%= $secret_key %>"
+db = SQLAlchemy(app)
+
+# Mokes
+hook = HookUI(
+    database=db, github=flask_github.GitHub(app=app), login=LoginManager(app=app),
+    commenter_github_access_token=os.environ.get("HOOKUI")
+)
+hook.init_app(app)
+hook.db.create_all()
+

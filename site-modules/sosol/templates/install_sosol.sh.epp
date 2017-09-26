@@ -1,0 +1,14 @@
+<%- | String[1] $jruby_version,
+      String[1] $rails_env,
+      String[1] $tomcat_pwd,
+| -%>
+#!/bin/bash
+rvm use <%= $jruby_version %>
+export JRUBY_OPTS='-J-Xmx4g --2.0'
+export RUBY_OPT="-W0"
+bundle install
+bundle exec cap local externals:setup
+bundle exec rake db:migrate RAILS_ENV=<%= $rails_env %>
+bundle exec warble war:clean
+bundle exec warble war RAILS_ENV=<%= $rails_env %>
+curl --user admin:<%= $tomcat_pwd %> --upload-file sosol.war "http://localhost:8080/manager/deploy?path=/sosol&update=true"

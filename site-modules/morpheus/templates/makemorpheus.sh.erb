@@ -1,0 +1,10 @@
+#!/bin/sh
+cd <%=@base_dir%>/<%=@perseus_src_dir%>/src
+/usr/bin/make && /usr/bin/make install
+# The Perseus Greek stems aren't quite right. The  make
+# acts flaky (and requires building twice)
+# we're going to use the Alpheios stems for now
+#cd <%=@base_dir%>/<%=@perseus_src_dir%>/stemlib/Greek
+#/usr/bin/make
+cd <%=@base_dir%>/<%=@perseus_src_dir%>/stemlib/Latin
+/usr/bin/make

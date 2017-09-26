@@ -1,0 +1,8 @@
+<%- | String[1] $app_root | -%>
+import os
+import sys
+
+# We run the app
+sys.path.append('<%= $app_root %>')
+sys.stdout = sys.stderr
+from app import app as application

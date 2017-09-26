@@ -1,0 +1,10 @@
+<%- | String[1] $jruby_version,
+      String[1] $rails_env,
+| -%>
+#!/bin/bash
+rvm use <%= $jruby_version %>
+export JRUBY_OPTS='-J-Xmx4g --2.0'
+export RUBY_OPT="-W0"
+bundle install
+bundle exec cap local externals:setup
+bundle exec rake db:migrate RAILS_ENV=<%= $rails_env %>

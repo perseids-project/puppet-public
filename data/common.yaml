@@ -1,0 +1,389 @@
+---
+  users:
+    'userx':
+      comment: 'UserX'
+      uid: '1002'
+      sshkeys:
+        - "%{alias('userx::ssh_key')}"
+  allow_users:
+    - 'userx'
+    - 'vagrant'
+  sudoers:
+    - 'userx'
+  puppet_agent_version: '1.10.1-1trusty'
+  sysadmins: 'admin@example.org'
+  icinga::version: '1.10.0'
+  pnp4nagios_url_base: 'http://downloads.sourceforge.net/project/pnp4nagios/PNP-0.6/'
+  pnp4nagios_version: '0.6.25'
+  slack_domain: ''
+  monitor_ips:
+    - ''
+  mysql_mem_fraction: '0.25'
+  snmp_community: 'perseids1971'
+  root_device: 'xvda'
+  s3_backup_bucket: 'perseids_data_backups'
+  full_backup_every: '1W'
+  prune_backups_after: '12M'
+  firewall_drop: true
+  motherfsck_gc: false
+  apparmor: false
+  ips:
+    tufts: ''
+    services: ''
+    services_pub: ''
+    www: ''
+    www_pub: ''
+    www_stage: ''
+    www_stage_pub: ''
+  tomcat_acl:
+    - "%{hiera('ips.tufts')}"
+    - "%{hiera('ips.services')}"
+  postgres_acl: []
+  fuseki_acl:
+    - "%{hiera('ips.www')}"
+    - "%{hiera('ips.www_pub')}"
+    - "%{hiera('ips.www_stage')}"
+    - "%{hiera('ips.www_stage_pub')}"
+  exist_acl:
+    - "%{hiera('ips.tufts')}"
+    - "%{hiera('ips.www_pub')}"
+  tomcat::user: 'tomcat6'
+  tomcat::group: 'tomcat6'
+  postgres::password: ''
+  docker::dns: '8.8.8.8'
+  capitains::domain: 'cts.perseids.org'
+  capitains::www_root: '/tmp/capitains'
+  capitains::data_root: '/mnt/data'
+  capitains::app_root: '/usr/local/capitains'
+  capitains::venvdir: "%{hiera('capitains::app_root')}/venvs"
+  capitains::redis_host: 'localhost'
+  capitains::workdir: '/usr/local/capitains_work'
+  capitains::ci_url: 'https://api.github.com/repos'
+  capitains::repo_base_url: 'https://github.com/'
+  capitains::repos_update_flags: ''
+  capitains::repos: 
+    - name: 'canonical-latinLit'
+      cibase: 'PerseusDL/canonical-latinLit'
+    - name: 'canonical-greekLit'
+      cibase: 'PerseusDL/canonical-greekLit'
+    - name: 'canonical-farsiLit'
+      cibase: 'PerseusDL/canonical-farsiLit'
+    - name: 'canonical-pdlpsci'
+      cibase: 'PerseusDL/canonical-pdlpsci'
+    - name: 'csel-dev'
+      cibase: 'OpenGreekAndLatin/csel-dev'
+    - name: 'canonical-pdlrefwk'
+      cibase: 'PerseusDL/canonical-pdlrefwk'
+    - name: 'First1KGreek'
+      cibase: 'OpenGreekAndLatin/First1KGreek'
+    - name: 'priapeia'
+      cibase: 'lascivaroma/priapeia'
+    - name: 'ancJewLitCTS'
+      cibase: 'hlapin/ancJewLitCTS'
+    #- name: 'patrologia_latina-dev'
+    #  cibase: 'OpenGreekAndLatin/patrologia_latina-dev'
+  imgup::git_url: 'https://github.com/PerseusDL/imgup'
+  imgup::revision: '69e8567390c3b7924e025c8eaaf2a99bc5a5cb57'
+  imgup::vhost: 'imgup.perseids.org'
+  imgup::rubyversion: '2.2.2'
+  imgup::app_dir: '/var/www/imgup'
+  imgup::data_root: '/usr/local/imgdata'
+  imgup::data_dir: "%{hiera('imgup::data_root')}/image-cite-colls/prod"
+  jackson::rubyversion: '2.2.2'
+  jackson::nodeversion: "%{hiera('node::version::ten')}"
+  jackson::git_url: 'https://github.com/perseids-project/JackSON.git'
+  jackson::revision: 'production'
+  jackson::sparql_endpoint: 'http://fuseki.perseids.org/fuseki/ds'
+  jackson::vhost: 'jackson.perseids.org'
+  jackson::base_url: 'https://www.perseids.org/jackson'
+  jackson::imgcollect::auth_url: "https://%{hiera('sosol::app_url')}/sosol/dmm_api/ping"
+  jackson::data_prefix: 'http://www.perseids.org/jackson'
+  jackson::deploy_dir: '/var/www/JackSON'
+  node::version::ten: '0.10.46'
+  sosol::db::name: 'sosol'
+  sosol::db::endpoint: 'perseidsmysql.cx2nagbknuom.us-east-1.rds.amazonaws.com'
+  sosol::db::user: 'sosoladmin'
+  sosol::db::keep_backups_days: '7'
+  sosol::git_url: 'https://github.com/PerseusDL/perseids_canonical_dev.git'
+  sosol::app_repo: 'https://github.com/sosol/sosol'
+  sosol::config_url: 'git@github.com:perseids-project/perseids_private_config.git'
+  sosol::app_url: 'sosol.perseids.org'
+  sosol::jruby_version: 'jruby-1.7.26'
+  sosol::rails_env: "%{facts.perseids_env}"
+  sosol::release_version: 'perseids.20170926b'
+  sosol::annotation_editor::git_url: 'https://github.com/perseids-project/annotation-editor'
+  sosol::annotation_editor::release_version: 'v1.0.14'
+  sosol::cts_api_url: 'https://github.com/alpheios-project/cts-api/archive/master.zip'
+  sosol::alignment_editor_url: 'https://github.com/alpheios-project/alignment-editor/archive/master.zip'
+  sosol::edit_utils_url: 'https://github.com/alpheios-project/edit-utils/archive/master.zip'
+  sosol::cts_pubs_url: 'https://github.com/perseids-project/cts-publications-prototypes/archive/master.zip'
+  sosol::tomcat::max_memory: '4096m'
+  sosol::tomcat::min_memory: '4096m'
+  sosol::tomcat::heap: '1024m'
+  sosol::tomcat::admin_pwd: 'p3rs31ds@dm1n'
+  sosol::error_documents:
+    - error_code: '503'
+      document: '/503.html'
+  sosol::proxy_paths:
+    - path: '/sosol'
+      url: 'http://127.0.0.1:8080/sosol'
+    - path: '/alpheios/repository'
+      url: '!'
+    - path: '/alpheios'
+      url: 'http://localhost:8800/exist/rest/db'
+  sosol::agents::eagle_api_url: 'http://www.eagle-network.eu/wiki/api.php'
+  sosol::agents::fgh_proxy_url: "http://%{hiera('fghproxy::vhost')}%{hiera('fghproxy::app_path')}"
+  sosol::agents::srophe_api_url: 'http://wwwb.library.vanderbilt.edu/exist/apps/srophe-admin/modules/services/sosol-pp.xql'
+  sosol::agents::cts_api_url: "http://%{hiera('capitains::domain')}/api/cts/?"
+  sosol::tools::cite_mapper_url: "https://%{hiera('site::profiles::services::vhost')}/cite_mapper"
+  sosol::tools::tokenizer_service_url: "https://%{hiera('site::profiles::services::vhost')}/llt"
+  sosol::tools::arethusa_url: "https://%{hiera('site::profiles::www::vhost')}/tools/arethusa"
+  sosol::tools::alpheios_url: "https://%{hiera('sosol::app_url')}/alpheios"
+  sosol::tools::review_service_url: "http://%{hiera('site::profiles::services::vhost')}/llt"
+  sosol::tools::pca_url: "https://%{hiera('pca::vhost')}/apps"
+  sosol::tools::oa_editor_url: "https://%{hiera('sosol::app_url')}/tools/annotation-editor"
+  sosol::dev_url: 'http://localhost:8080'
+  sosoldev::proxy_paths:
+    - path: '/dmm_api'
+      url: 'http://localhost:3000/dmm_api' 
+    - path: '/api'
+      url: 'http://localhost:3000/api' 
+    - path: '/cts'
+      url: 'http://localhost:3000/cts' 
+    - path: '/alpheios/repository'
+      url: '!'
+    - path: '/alpheios'
+      url: 'http://localhost:8800/exist/rest/db'
+    - path: '/llt'
+      url: 'http://localhost:8088'
+  sosol::agents::eagle_api_url: 'http://www.eagle-network.eu/wiki/api.php'
+  marmotta::dbuser: 'perseidsadmin'
+  marmotta::dbpass: ''
+  marmotta::dbname: 'marmotta'
+  marmotta::dburl: 'jdbc:postgresql://localhost:5432/marmotta?prepareThreshold=3'
+  marmotta::keep_backups_days: '7'
+  marmotta::context: 'http://annotation.perseids.org'
+  marmotta::home: '/usr/local/marmotta'
+  marmotta::src: '/usr/local/marmotta_src'
+  marmotta::tomcat7_max_memory: '1024m'
+  marmotta::tomcat7_min_memory: '1024m'
+  marmotta::tomcat7_heap: '254m'
+  marmotta::vhost: 'annotation.perseids.org'
+  marmotta::proxy_paths:
+    - path: '/marmotta'
+      url: 'http://127.0.0.1:8080/marmotta'
+  marmotta::locations:
+    - path: '/marmotta/sparql/update'
+      require: 
+        - "ip %{hiera('aws::ips.services')}"
+        - "ip %{hiera('aws::ips.collections')}"
+        - "ip %{hiera('aws::ips.monitor')}"
+      provider: 'location'
+    - path: '/marmotta/core/admin'
+      require: 'all denied'
+      provider: 'location'
+  fuseki::base: 'jena-fuseki-1.0.2'
+  fuseki::archive: "%{hiera('fuseki::base')}-distribution.tar.gz"
+  fuseki::archive_url: "http://archive.apache.org/dist/jena/binaries/%{hiera('fuseki::archive')}"
+  fuseki::vhost: 'fuseki.perseids.org'
+  fuseki::proxy_paths:
+    - path: '/fuseki'
+      url: 'http://127.0.0.1:3030'
+      params: 
+        retry: '3'
+        timeout: '5'
+  morpheus::base_dir: '/usr/local/morph'
+  morpheus::alpheios_git_url: 'https://github.com/alpheios-project/morpheus.git'
+  morpheus::alpheios_src_dir: 'alpheios-morpheus'
+  morpheus::alpheios_src_tag: 'v1.0.0'
+  morpheus::perseus_git_url: 'https://github.com/PerseusDL/morpheus'
+  morpheus::perseus_src_tag: 'v1.0.0'
+  morpheus::perseus_src_dir: 'perseus-morpheus'
+  morpheus::latin_stemlibs_git_url: 'https://github.com/perseids-project/morpheus-latin-stemlibs'
+  morpheus::stemlibs_src_tag: 'v1.0.0'
+  morpheus::latin_stemlibs_dir: 'stemlibs-latin'
+  morpheus::binary_path: "%{hiera('morpheus::base_dir')}/%{hiera('morpheus::alpheios_src_dir')}/dist/bin/platform/Linux_x86-gcc4/morpheus"
+  morpheus::stemlib_dir: "%{hiera('morpheus::base_dir')}/stemlib"
+  site::profiles::www::vhost: 'www.perseids.org'
+  site::profiles::www::docroot: '/var/www/landing'
+  site::profiles::www::repo: 'https://github.com/perseids-project/perseids_landing'
+  site::profiles::www::proxy_paths:
+    - path: '/imgup'
+      url: "http://%{hiera('imgup::vhost')}"
+    - path: '/jackson'
+      url: "http://%{hiera('jackson::vhost')}"
+    - path: '/tools/arethusa'
+      url: "http://%{hiera('arethusa::vhost')}"
+    - path: '/apps'
+      url: "http://%{hiera('pca::vhost')}/apps"
+    - path: '/sparql-proxy'
+      url: 'http://services.perseids.org/fuseki'
+    - path: '/tools/arethusa-configs'
+      url: 'http://arethusa-configs.perseids.org'
+  site::profiles::www::rewrites:
+    - rewrite_rule:  
+      - '^/examples/(.*)$ http://pubs.perseids.org/arethusa-example-configs/$1'
+      - '^/tools/lexical/query.html http://pubs.perseids.org/lexical/query.html [L]'
+      - '^/sites/joth/index\.html http://joth.perseids.org/joth.html [L]'
+      - '^/sites/joth$ http://joth.perseids.org/joth.html [L]'
+      - '^/sites/joth/ http://joth.perseids.org/joth.html [L]'
+      - '^/sites/myth/index\.html http://joth.perseids.org/myth.html [L]'
+      - '^/sites/myth$ http://joth.perseids.org/myth.html [L]'
+      - '^/sites/myth/ http://joth.perseids.org/myth.html [L]'
+      - '^/sites/epifacs/(.*)$ http://pubs.perseids.org/epifacs/src/$1 [L]'
+      - '^/sites/epifacs/ http://pubs.perseids.org/epifacs/src/index.html [L]'
+      - '^/sites/bodin http://pubs.perseids.org/bodin [L]'
+      - '^/sites/berti_demo/(.*)$ http://pubs.perseids.org/berti_demo/src/$1 [L]'
+      - '^/sites/berti_demo http://pubs.perseids.org/berti_demo/src [L]'
+      - '^/sites/alignment-prototypes/(.*)$ http://pubs.perseids.org/alignment-prototypes/$1 [L]'
+      - '^/sites/alignment-prototypes http://pubs.perseids.org/alignment-prototypes [L]'
+      - '^/sites/vortex http://pubs.perseids.org/vortex/digitaledition/tlg0012.tlg001.perseus-grc1.de.html [L]'
+      - '^/cts5/(.*?)/citations/(urn:cts:.*)$    http://cts.perseids.org/api/cts/?request=GetPassage&urn=$2   [P,L]'
+      - '^/citations/(urn:cts:.*)$    http://sosol.perseids.org/alpheios/xq/CTS.xq?request=GetPassagePlus&inv=lci&urn=$1    [P,L]'
+      - '^/annotsrc/(urn:cts:.*)$    http://sosol.perseids.org/sosol/cts/getpassage/AnnotationSources/$1    [P,L,NE]'
+      - '/queries/morpheus/(.*?)/(.*?)$  http://www.perseids.org/sparql-proxy/ds/query?query=SELECT+?urn+?replacedby+FROM+<http\%3A\%2F\%2Fdata.perseus.org\%2Fds\%2Flexical\%2Flatlexent>+WHERE+{{?urn+<http\%3A\%2F\%2Fdata.perseus.org\%2Frdfvocab\%2Flexical\%2FhasMorpheusLemma>+"$2"@$1}+UNION+{?urn+<http\%3A\%2F\%2Fdata.perseus.org\%2Frdfvocab\%2Flexical\%2FhasMorpheusLemma>+"$2"@$1.+?urn+<http\%3A\%2F\%2Fpurl.org\%2Fdc\%2Fterms\%2FisReplacedBy>+?replacedby}}&output=xml [P,NE]'
+      - '^/collections/(urn:cite:.*?\..*?)/oac.json$    http://services2.perseids.org/collections/api?req=GetObject&urn=$1&withXslt=citeoacjson.xsl    [L]'
+      - '^/collections/(urn:cite:.*?\..*)$    http://services2.perseids.org/collections/api?req=GetObject&urn=$1    [P,L]'
+      - '^/collections/(urn:cite:[^\.]+)$    http://services2.perseids.org/collections/api?req=GetValidReff&urn=$1&withXslt=citegvr.xsl    [P,L]'
+      - '^/collections/xslt/(.*)$    http://services2.perseids.org/collections/xslt/$1    [P,L]'
+      - '^/collections/css/(.*)$    http://services2.perseids.org/collections/css/$1    [P,L]'
+  site::profiles::services::tomcat::max_memory: '1024m'
+  site::profiles::services::tomcat::min_memory: '1024m'
+  site::profiles::services::tomcat::heap: '512m'
+  site::profiles::services::tomcat::admin_pwd: 'p3rs31ds@dm1n'
+  site::profiles::services::rvm::jruby_version: 'jruby-1.7.19'
+  site::profiles::services::vhost: 'services.perseids.org'
+  site::profiles::services::proxy_paths:
+    - path: '/bsp/morphologyservice'
+      url: "http://morph.perseids.org"
+    - path: '/fuseki'
+      url: "http://%{hiera('fuseki::vhost')}/fuseki"
+    - path: '/flask-github-proxy'
+      url: "http://%{hiera('fghproxy::vhost')}/flask-github-proxy"
+    - path: '/llt'
+      url: "http://%{hiera('site::profiles::services::tomcat::vhost')}/llt"
+    - path: '/sg'
+      url: "http://%{hiera('site::profiles::services::tomcat::vhost')}/sg"
+    - path: '/cite_mapper'
+      url: "http://%{hiera('site::profiles::services::tomcat::vhost')}/cite_mapper"
+    - path: '/collections'
+      url: "http://%{hiera('site::profiles::services::tomcat::vhost')}/collections"
+    - path: '/arethusa-configs'
+      url: 'http://arethusa-configs.perseids.org'
+  site::profiles::services::tomcat::vhost: 'services2.perseids.org'
+  site::profiles::services::tomcat::proxy_paths:
+    - path: '/llt'
+      url: 'http://127.0.0.1:8080/llt'
+    - path: '/sg'
+      url: 'http://127.0.0.1:8080/sg'
+    - path: '/cite_mapper'
+      url: 'http://127.0.0.1:8080/cite_mapper'
+    - path: '/collections'
+      url: 'http://127.0.0.1:8080/citefusioncoll-0.2.0'
+  llt::app_repo: 'https://github.com/perseids-project/llt'
+  llt::app_version: 'v0.0.4'
+  llt::dbhandler_repo: 'https://github.com/perseids-project/llt-db_handler'
+  arethusa::app_repo: 'https://github.com/alpheios-project/arethusa'
+  arethusa::app_version: 'v0.3.14'
+  arethusa::node_version: "%{hiera('node::version::ten')}"
+  arethusa::ruby_version: '2.0'
+  arethusa::app_root: '/home/deployer/arethusa'
+  arethusa::deploy_root: '/var/www/arethusa'
+  arethusa::vhost: 'arethusa.perseids.org'
+  arethusa_configs::vhost: 'arethusa-configs.perseids.org'
+  arethusa_configs::doc_root: '/var/www/arethusa_configs'
+  arethusa_configs::app_root: '/home/deployer/arethusa-configs'
+  arethusa_configs::app_repo: 'https://github.com/alpheios-project/arethusa-configs'
+  sg::app_repo: 'https://github.com/PerseusDL/sg_reader'
+  sg::app_version: 'v1.0.0'
+  cite_mapper::app_repo: 'https://github.com/PerseusDL/cite_mapper'
+  citefusioncoll::app_repo: 'https://github.com/perseids-project/citefusioncoll'
+  citefusioncoll::app_version: 'master'
+  fghproxy::app_root: '/usr/local/fgh'
+  fghproxy::vhost: 'fgh.perseids.org'
+  fghproxy::app_path: '/flask-github-proxy'
+  fghproxy::app_revision: 'issue26'
+  fghproxy::app_repo: 'https://github.com/PonteIneptique/flask-github-proxy'
+  hook::app_root: '/usr/local/hook'
+  hook::app_repo: 'https://github.com/Capitains/Hook'
+  hook::app_version: '1.0.1'
+  hook::vhost: 'ci.perseids.org'
+  hook::app_path: '/'
+  hook::db_name: 'hook'
+  hook::db_user: 'hookadmin'
+  hook::db_pass: ''
+  hook::db_uri: "postgresql://%{hiera('hook::db_user')}:%{hiera('hook::db_pass')}@localhost:5432/hook"
+  hook::keep_backups_days: '7'
+  hook::client_secret: ''
+  hook::client_id: ''
+  hook::secret_key: ''
+  hook::gh_token: ''
+  joth::deploy_path: '/usr/local/joth'
+  joth::source_repo: 'https://github.com/perseids-project/journey-of-the-hero'
+  joth::source_version: 'master'
+  joth::vhost: 'joth.perseids.org'
+  joth::cts_api: "http://%{hiera('capitains::domain')}/api/cts/"
+  joth::pca_path: 'pca'
+  pca::vhost: 'pca.perseids.org'
+  pca::app_path: '/usr/local/perseids-client-apps'
+  pca::source_repo: 'https://github.com/perseids-project/perseids-client-apps'
+  pca::app_release: '0.0.12'
+  pca::sosol_url: "https://%{hiera('sosol::app_url')}/sosol"
+  pca::cts_url: "https://%{hiera('capitains::domain')}"
+  pca::alpheios::editor_url: "https://%{hiera('sosol::app_url')}/alpheios/app/align-editsentence-perseids.xhtml?doc=REPLACE_DOC&s=1"
+  pca::llt_url: "https://services.perseids.org/llt"
+  pca::arethusa::editor_url: "https://www.perseids.org/tools/arethusa/app/#/perseids"
+  pca::node_version: "%{hiera('node::version::ten')}"
+  pubs::vhost: 'pubs.perseids.org'
+  pubs::docroot: '/var/www/pubs'
+  pubs::vcsapps:
+    'bodin':
+      source: 'https://github.com/PerseusDL/bodin'
+    'vortex':
+      source: 'https://github.com/perseids-project/thematic-annotation-prototype'
+    'epifacs':
+      source: 'https://github.com/perseids-project/epifacs_demo'
+    'berti_demo':
+      source: 'https://github.com/PerseusDL/lci-demo'
+    'alignment-prototypes':
+      source: 'https://github.com/perseids-project/alignment-prototypes'
+    'lexical':
+      source: 'https://github.com/perseids-project/lexical-inventory-query'
+    'arethusa-example-configs':
+      source: 'https://github.com/perseids-project/arethusa-example-configs'
+  digmill::app_root: '/var/www/digital_milliet'
+  digmill::app_path: '/'
+  digmill::vhost: 'digmill.perseids.org'
+  digmill::app_version: 'v1.0.1'
+  digmill::repo_url: 'https://github.com/perseids-project/digital_milliet'
+  digmill::node_version: "%{hiera('node::version::ten')}"
+  digmill::rewrites:
+    - rewrite_rule:  
+      - "^/digmil$ http://%{hiera('digmill::vhost')}"
+      - "^/digmil/(.*)$ http://%{hiera('digmill::vhost')}/$1"
+  collections::vhost: 'collections.perseids.org'
+  collections::app_root: '/usr/local/collections'
+  collections::repos: 'https://github.com/RDACollectionsWG/tufts-implementation'
+  collections::release_version: 'v1.0.0'
+  collections::marmotta_url: "http://%{hiera('marmotta::vhost')}/marmotta"
+  collections::gunicorn_timeout: 600 
+  collections::locations:
+    - path: '/collections'
+      require: 'unmanaged'
+      limit: 
+        - methods: 'POST PUT DELETE'
+          require: 
+           - "ip %{hiera('aws::ips.sosol')}"
+      provider: 'location'
+  morphology::vhost: 'morph.perseids.org'
+  morphology::app_root: '/usr/local/morphsvc'
+  morphology::repos: 'https://github.com/perseids-project/morphsvc'
+  morphology::release_version: 'v1.0.0'
+  morphology::gunicorn_timeout: 120
+  morphology::redis_host: 'localhost'
+  morphology::redis_port: '6379'
+  morphology::aramorph_url: 'http://alpheios.net/perl/aramorph-test?word='
+  morphology::whitakers_url: 'http://alpheios.net/perl/latin?word='
+  morphology::lex_grc_url: 'http://services2.perseids.org/collections/list?coll=urn:cite:perseus:grclexent&prop=normalizedlemma&normalizedlemma='
+  morphology::lex_lat_url: 'http://perseids.org/queries/morpheus/lat/'
+  morphology::redis::maxmemory: '4gb'

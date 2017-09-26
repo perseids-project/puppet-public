@@ -1,0 +1,10 @@
+<%- | String[1] $aws_region | -%>
+#!/bin/sh
+cd /etc/puppetlabs/code/environments/production
+if /usr/local/bin/git_is_up_to_date; then
+  export AWS_REGION=<%= $aws_region %>
+  /opt/puppetlabs/puppet/bin/r10k puppetfile install
+  /opt/puppetlabs/bin/puppet apply manifests/ $*
+else
+  echo Not applying Puppet because the Git repo is not up to date with origin/master. Pull or rebase your branch first.
+fi

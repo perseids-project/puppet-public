@@ -1,0 +1,23 @@
+---
+version: 5
+
+defaults:
+  datadir: data
+  data_hash: yaml_data
+
+hierarchy:
+  - name: "Per-node settings"
+    path: "%{facts.hostname}.yaml"
+  - name: "OS-specific settings"
+    path: "%{facts.operatingsystem}.yaml"
+  - name: "OS release-specific settings"
+    path: "%{facts.lsbdistcodename}.yaml"
+  - name: "Per-datacenter secret data (encrypted)"
+    lookup_key: eyaml_lookup_key
+    path: "secret.eyaml"
+    options:
+      gpg_gnupghome: '/root/.gnupg'
+  - name: "AWS settings"
+    path: "aws.yaml"
+  - name: "Common defaults"
+    path: "common.yaml"

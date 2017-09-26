@@ -1,0 +1,15 @@
+<%- | 
+  String[1] $redis_host,
+  String[1] $redis_port,
+  String[1] $config_file,
+| -%>
+#!/usr/bin/env python
+from flask import Flask
+from morphsvc.morphsvc import init_app, get_app
+import morphsvc.morphsvc
+from werkzeug.contrib.cache import RedisCache
+
+app = get_app()
+
+init_app(app,"<%= $config_file %>", cache_config = { 'CACHE_TYPE': 'redis', 'CACHE_REDIS_HOST':'<%= $redis_host %>','CACHE_REDIS_PORT':'<%= $redis_port %>'})
+

@@ -1,0 +1,17 @@
+<%- | 
+  String[1] $session_secret,
+  String[1] $session_domain,
+| -%>
+# Be sure to restart your server when you modify this file.
+
+Sosol::Application.config.session_store :cookie_store, { 
+  :key => '_sosol_session',
+  :secret => '<%= $session_secret %>',
+  :httponly => false,
+  :domain => '<%= $session_domain %>'
+}
+
+# Use the database for sessions instead of the cookie-based default,
+# which shouldn't be used to store highly confidential information
+# (create the session table with "rails generate session_migration")
+# Sosol::Application.config.session_store :active_record_store

@@ -1,0 +1,15 @@
+<%- | String[1] $jruby_version,
+      String[1] $tomcat_pwd
+| -%>
+#!/bin/sh
+rvm use <%= $jruby_version %>
+gem uninstall -a -x --force -q warbler
+gem uninstall -a --force -q jruby-jars
+gem uninstall -a --force -q jruby-rack
+gem install jruby-jars -v 1.7.22
+gem install jruby-rack -v 1.1.19
+gem install warbler -v 1.4.9
+export JRUBY_OPTS='--2.0 -X-C -J-Xmx1024m -J-XX:+UseConcMarkSweepGC'
+bundle install
+warble war
+curl --user admin:<%= $tomcat_pwd %> --upload-file llt.war "http://localhost:8080/manager/deploy?path=/llt&update=true"

@@ -1,0 +1,24 @@
+#!/usr/bin/ruby
+# Delete only those files in BACKUP_PATH which are older than MAX_DAYS and 
+# also exist in DUPLICITY_BACKUP.
+
+usage="Usage: #{$PROGRAM_NAME} BACKUP_PATH DUPLICITY_BACKUP MAX_DAYS"
+BACKUP_PATH=ARGV[0] || fail(usage)
+DUPLICITY_BACKUP=ARGV[1] || fail(usage)
+MAX_DAYS=ARGV[2] || fail(usage)
+
+SECONDS_IN_A_DAY=86400
+
+files_on_s3 = `/usr/local/bin/duplicity_list #{DUPLICITY_BACKUP}`
+candidates = Dir["#{BACKUP_PATH}/*"].sort_by { |f| File.mtime(f) }
+now = Time.now
+max_age_sec = MAX_DAYS.to_i * SECONDS_IN_A_DAY
+to_delete = candidates.select { |f| (now - File.mtime(f)) > max_age_sec }
+to_delete.each do |f|
+  if files_on_s3.include?(File.basename(f))
+    puts "#{f} is old enough to delete and exists on S3, deleting"
+    File.unlink(f)
+  else
+    puts "#{f} is old enough to delete but does not exist on S3 yet, skipping"
+  end
+end

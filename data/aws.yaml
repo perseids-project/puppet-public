@@ -1,0 +1,321 @@
+---
+  aws::test_mode: false
+  aws::region: 'us-east-1'
+  aws::az: 'us-east-1d'
+  aws::subnet: 'perseids_subnet'
+  aws::securitygroup: 'open'
+  aws::ips:
+    www: ''
+    annotation: ''
+    sosol: ''
+    digmill: ''
+    services: ''
+    ci: ''
+    collections: ''
+    monitor: ''
+    morph: ''
+  aws::resources:
+    'ec2_vpc':
+      'perseids_vpc':
+        ensure: present
+        region: "%{hiera('aws::region')}"
+        cidr_block: '10.0.0.0/16'
+    'ec2_vpc_subnet':
+      'perseids_subnet':
+        ensure: present
+        region: "%{hiera('aws::region')}"
+        cidr_block: '10.0.0.0/24'
+        availability_zone: "%{hiera('aws::az')}"
+    'ec2_securitygroup':
+      'open':
+        description: 'Open (uses server-level firewall)'
+        region: "%{hiera('aws::region')}"
+        vpc: 'perseids_vpc'
+        ingress:
+          - protocol: '-1'
+            from_port: 1
+            to_port: 65535
+            cidr: '0.0.0.0/0'
+    'ec2_instance':
+      'morph':
+        ensure: 'running'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-2d39803a'
+        instance_type: 't2.micro'
+        associate_public_ip_address: true
+        key_name: 'perseidskey'
+        block_devices:
+          - device_name: '/dev/sda1'
+            volume_size: 8
+      'ci':
+        ensure: 'running'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-f4cc1de2'
+        instance_type: 't2.micro'
+        associate_public_ip_address: true
+        key_name: 'perseidskey'
+        block_devices:
+          - device_name: '/dev/sda1'
+            volume_size: 8
+      'digmill':
+        ensure: 'running'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-2d39803a'
+        instance_type: 't2.small'
+        associate_public_ip_address: true
+        key_name: 'perseidskey'
+        block_devices:
+          - device_name: '/dev/sda1'
+            volume_size: 8
+      'collections':
+        ensure: 'running'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-2d39803a'
+        instance_type: 't2.micro'
+        associate_public_ip_address: true
+        key_name: 'perseidskey'
+        block_devices:
+          - device_name: '/dev/sda1'
+            volume_size: 8
+      'monitor':
+        ensure: 'running'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-383aa62e'
+        instance_type: 't2.small'
+        associate_public_ip_address: true
+        key_name: 'perseidskey'
+        block_devices:
+          - device_name: '/dev/sda1'
+            volume_size: 8
+      'annotation-www':
+        ensure: 'running'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-2d39803a'
+        instance_type: 'r3.large'
+        associate_public_ip_address: true
+        key_name: 'perseidskey'
+        block_devices:
+          - device_name: '/dev/sda1'
+            volume_size: 50
+      'Perseus Catalog Build':
+        ensure: 'stopped'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-d05e75b8'
+        instance_type: 'm3.large'
+        associate_public_ip_address: true
+        key_name: 'perseidsservices'
+        block_devices:
+          - device_name: '/dev/sda1'
+            volume_size: 8
+      'sosol':
+        ensure: 'running'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-2d39803a'
+        instance_type: 'c3.2xlarge'
+        associate_public_ip_address: true
+        key_name: 'perseidskey'
+        block_devices:
+          - device_name: '/dev/sda1'
+            volume_size: 50
+          - device_name: '/dev/sdf'
+            volume_size: 50
+      'services':
+        ensure: 'running'
+        region: "%{hiera('aws::region')}"
+        subnet: "%{hiera('aws::subnet')}"
+        security_groups: "%{hiera('aws::securitygroup')}"
+        image_id: 'ami-9eaa1cf6'
+        instance_type: 'r3.xlarge'
+        associate_public_ip_address: true
+        key_name: 'perseidskey'
+        block_devices:
+         - device_name: '/dev/sda1'
+           volume_size: 50
+        associate_public_ip_address: true
+    'rds_instance':
+      'perseidsmysql':
+        ensure: present
+        region: "%{hiera('aws::region')}"
+        db_instance_class: 'db.m1.medium'
+        engine: 'mysql'
+        backup_retention_period: 30
+        multi_az: true
+        master_username: "%{hiera('sosol::db::user')}"
+        master_user_password: "%{hiera('sosol::db::password')}"
+        allocated_storage: 10
+    's3_bucket':
+      'perseids_data_backups':
+        ensure: present
+    'route53_zone':
+      'perseids.org.':
+        ensure: present
+    'route53_a_record':
+      'annotation.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.annotation')}"
+      'ci.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.ci')}"
+      'collections.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.collections')}"
+      'digmill.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.digmill')}"
+      'monitor.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.monitor')}"
+      'morph.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.morph')}"
+      'perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.www')}"
+      'services.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.services')}"
+      'sosol.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "%{hiera('aws::ips.sosol')}"
+    'route53_cname_record':
+      '5bqdydu7whmeygvbi5xll3oufgendpan._domainkey.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: '5bqdydu7whmeygvbi5xll3oufgendpan.dkim.amazonses.com'
+      'arethusa-configs.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'annotation.perseids.org'
+      'arethusa.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'annotation.perseids.org'
+      'cts.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'services.perseids.org'
+      'fgh.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'services.perseids.org'
+      'fuseki.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'services.perseids.org'
+      'hzzlvbf37wp27dt7vzyphz6hvv3whx7g._domainkey.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'hzzlvbf37wp27dt7vzyphz6hvv3whx7g.dkim.amazonses.com'
+      'imgup.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'annotation.perseids.org'
+      'jackson.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'annotation.perseids.org'
+      'joth.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'annotation.perseids.org'
+      'pca.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'annotation.perseids.org'
+      'services2.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'services.perseids.org'
+      'www.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'perseids.org'
+      'xrot6gfv2uvusv7j7xuuf5luhfuvrdjv._domainkey.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: 'xrot6gfv2uvusv7j7xuuf5luhfuvrdjv.dkim.amazonses.com'
+    'route53_ns_record':
+      'perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 172800
+        values:
+          - 'ns-372.awsdns-46.com.'
+          - 'ns-1530.awsdns-63.org.'
+          - 'ns-1732.awsdns-24.co.uk.'
+          - 'ns-528.awsdns-02.net.'
+    'route53_txt_record':
+      '_amazonses.perseids.org.':
+        ensure: present
+        zone: 'perseids.org.'
+        ttl: 300
+        values: "ON5Dm3tuRXSnzLytVvFxgN7TuVOiQHTYrT0tGQwLawU="
+    'ec2_elastic_ip':
+      "%{hiera('aws::ips.sosol')}":
+        ensure: attached
+        region: "%{hiera('aws::region')}"
+        instance: 'sosol'
+      "%{hiera('aws::ips.digmill')}":
+        ensure: attached
+        region: "%{hiera('aws::region')}"
+        instance: 'digmill'
+      "%{hiera('aws::ips.www')}":
+        ensure: attached
+        region: "%{hiera('aws::region')}"
+        instance: 'annotation-www'
+      "%{hiera('aws::ips.services')}":
+        ensure: attached
+        region: "%{hiera('aws::region')}"
+        instance: 'services'
+      "%{hiera('aws::ips.morph')}":
+        ensure: attached
+        region: "%{hiera('aws::region')}"
+        instance: 'morph'

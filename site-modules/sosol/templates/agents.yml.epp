@@ -1,0 +1,108 @@
+<%- | 
+  String[1] $eagle_password,
+  String[1] $eagle_api_url,
+  String[1] $fgh_client_secret,
+  String[1] $fgh_proxy_url,
+  String[1] $srophe_api_key,
+  String[1] $srophe_api_url,
+  String[1] $cts_api_url,
+| -%>
+:agents:
+  :eagle:
+    :uri_match: "http://www.eagle-network.eu"
+    :transformations:
+      :CTSIdentifier: "/data/xslt/cts/eagle-xml-perseids.xsl"
+      :EpiCTSIdentifier: "/data/xslt/cts/perseids-json-eagle.xsl"
+    :controllers:
+      edit: "edittext"
+    :collections:
+      :CTSIdentifier: "pdlepi"
+    :type: "mediawiki"
+    :api_info:
+      :url: "<%= $eagle_api_url %>"
+      :data_format: 
+        :get: "xml"
+        :post: "json"
+      :auth:
+        :username: "Perseids"
+        :password: "<%= $eagle_password %>"
+  :googless:
+    :uri_match: "https://docs.google.com/spreadsheet"
+    :get_url: "http://spreadsheets.google.com/feeds/list/WORKSHEET_ID/od6/public/values"
+    :type: "googless"
+    :transformations:
+      :OaCiteIdentifier: "/data/xslt/cite/gs_to_oa_cite.xsl"
+  :hypothesis:
+    :uri_match: "https://hypothes.is"
+    :type: "hypothesis"
+    :data_mapper: 'HypothesisClient::MapperPrototype::JOTH'
+    :collections:
+      :OajCiteIdentifier: "urn:cite:perseus:pdljann"
+  :cts:
+    :uri_match: "^urn:cts:"
+    :type: "cts"
+    :get_url: "<%= $cts_api_url %>request=GetPassage&urn=URN"
+    :transformations:
+      :OaCiteIdentifier: "/data/xslt/cite/cts5_to_oa_cite.xsl"
+  :syriaca_github:
+    :uri_match: "https://github.com/srophe/srophe-app-data"
+    :type: "github"
+    :post_url: "<%= $fgh_proxy_url %>/perseids_syriaca/push/<PATH>"
+    :timeout: 3600
+    :client_secret: "<%= $fgh_client_secret %>"
+    :log_message: "<ID> Edited by <USER> via Perseids."
+  :jmh_github:
+    :uri_match: "https://github.com/perseids-project/harrington_trees"
+    :type: "github"
+    :post_url: "<%= $fgh_proxy_url %>/perseids_jmhtrees/push/<PATH>"
+    :timeout: 3600
+    :client_secret: "<%= $fgh_client_secret %>"
+    :log_message: "<ID> Edited by <USER> via Perseids."
+  :rg_github:
+    :uri_match: "https://github.com/rgorman/tree_submissions"
+    :type: "github"
+    :post_url: "<%= $fgh_proxy_url %>/perseids_rgtrees/push/<PATH>"
+    :timeout: 3600
+    :client_secret: "<%= $fgh_client_secret %>"
+    :log_message: "<ID> Edited by <USER> via Perseids."
+  :bodin_github:
+    :uri_match: "https://github.com/TuftsUniversity/perseids_bodin"
+    :type: "github"
+    :post_url: "<%= $fgh_proxy_url %>/perseids_bodin/push/<PATH>"
+    :timeout: 3600
+    :client_secret: "<%= $fgh_client_secret %>"
+    :log_message: "<ID> Edited by <USER> via Perseids."
+  :sematia_github:
+    :uri_match: "https://github.com/ezhenrik/sematia-tb"
+    :type: "github"
+    :post_url: "<%= $fgh_proxy_url %>/perseids_sematia/push/<PATH>"
+    :timeout: 3600
+    :client_secret: "<%= $fgh_client_secret %>"
+    :log_message: "<ID> Edited by <USER> via Perseids."
+  :zagreb_github:
+    :uri_match: "https://github.com/nevenjovanovic/zagreb-psl"
+    :type: "github"
+    :post_url: "<%= $fgh_proxy_url %>/perseids_zagreb/push/<PATH>"
+    :timeout: 3600
+    :client_secret: "<%= $fgh_client_secret %>"
+    :log_message: "<ID> Edited by <USER> via Perseids."
+  :strobino_github:
+    :uri_match: "https://github.com/strobinor/Tufts-Medieval-Latin-Strobino-"
+    :type: "github"
+    :post_url: "<%= $fgh_proxy_url %>/perseids_strobino/push/<PATH>"
+    :timeout: 3600
+    :client_secret: "<%= $fgh_client_secret %>"
+    :log_message: "<ID> Edited by <USER> via Perseids."
+  :dm_github:
+    :uri_match: "https://github.com/perseids-project/digital_milliet"
+    :type: "github"
+    :post_url: "<%= $fgh_proxy_url %>/flask-github-proxy/perseids_dm/push/<PATH>"
+    :timeout: 3600
+    :client_secret: "<%= $fgh_client_secret %>"
+    :log_message: "<ID> Edited by <USER> via Perseids."
+  :srophe_processor:
+    :uri_match: "http://syriaca.org/"
+    :type: "srophe_processor"
+    :post_url: "<%= $srophe_api_url %>"
+    :apikey: "<%= $srophe_api_key %>"
+

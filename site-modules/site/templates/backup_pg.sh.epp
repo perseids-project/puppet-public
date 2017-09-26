@@ -1,0 +1,5 @@
+<%- | String[1] $db_name,
+      String[1] $sql_file,
+| -%>
+#!/bin/bash
+/usr/bin/pg_dump -Fc <%= $db_name %> |/bin/gzip >"<%= $sql_file %>.gz"

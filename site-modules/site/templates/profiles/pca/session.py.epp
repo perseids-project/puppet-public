@@ -1,0 +1,9 @@
+<%- | String[1] $sosol_url
+| -%>
+# -*- coding: utf-8 -*-
+
+session = {
+    "sessionTokenName" : "csrftoken",
+    "sessionHeaderName" : "X-CSRF-Token",
+    "pingUrl" : "<%= $sosol_url %>/dmm_api/ping"
+}

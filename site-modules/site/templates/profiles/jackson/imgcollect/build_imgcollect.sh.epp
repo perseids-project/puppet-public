@@ -1,0 +1,7 @@
+<%- | String[1] $node_version,
+| -%>
+#!/bin/bash
+source /home/deployer/.nvm/nvm.sh
+nvm use <%= $node_version %>
+npm install bower -g
+bower install

@@ -1,0 +1,49 @@
+#!/usr/bin/ruby
+
+require 'optparse'
+
+DUPLICITY_OPTIONS="--s3-use-new-style --no-encryption"
+SRC_BUCKET="s3+http://<%= @s3_bucket %>"
+AWS_ACCESS_KEY_ID="<%= @aws_access_key %>"
+AWS_SECRET_ACCESS_KEY="<%= @aws_secret_key %>"
+
+$rfile = ""
+$rtime = ""
+
+OptionParser.new do |opts|
+    opts.banner = "Usage: #{$0} [options] BACKUP RESTORE_PATH\n\n\Restore backup data via Duplicity from S3 backup BACKUP. Data will be restored into RESTORE_PATH on the local machine."
+
+    opts.separator ""
+    opts.separator "Specific options:"
+
+    opts.on("-f FILE", "Specific file or directory to restore (default all data)") do |rfile|
+        $rfile = rfile
+    end
+
+    opts.on("-t TIME", "Restore data from a specific time (see 'man duplicity' for formats)") do |rtime|
+        $rtime = rtime
+    end
+
+    opts.on("-u", "Show usage") do
+        puts opts
+        exit
+    end
+end.parse!
+
+backup = ARGV.shift or raise "Please specify a backup job to restore (for example 'git')."
+rpath = ARGV.shift or raise "Please specify a local path to restore the data to."
+ENV['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
+ENV['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
+cmdline = "/usr/bin/duplicity #{DUPLICITY_OPTIONS}"
+if !$rfile.empty?
+  if $rfile[0,1] == '/'
+    $rfile = $rfile[1..-1]
+  end
+  cmdline += " --file-to-restore '#{$rfile}'"
+end
+if !$rtime.empty?
+  cmdline += " --restore-time #{$rtime}"
+end
+cmdline += " #{SRC_BUCKET}/#{backup} #{rpath}"
+puts cmdline
+puts `#{cmdline}`

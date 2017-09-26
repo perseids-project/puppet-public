@@ -1,0 +1,36 @@
+# Service-specific configuration file for fuse-smx. This will be
+# sourced by the SysV init script, thus allowing values to be
+# overridden in a per-service manner.
+#
+# To change values for a specific service make your edits here.
+# To create a new service create a link from
+# /etc/init.d/<your new service> to /etc/init.d/fuse-smx (do not copy
+# the init script) and make a copy of the /etc/sysconfig/fuse-smx
+# file to /etc/sysconfig/<your new service> and change the property
+# values so the two services won't conflict. Register the new
+# service in the system as usual (see chkconfig and similar).
+#
+
+# Path to the fuse-smx start and stop scripts
+#FUSE_SMX_SCRIPT="/usr/local/apache-servicemix/FUSE/bin"
+
+# Define the fuse-smx username
+#FUSE_SMX_USER="${FUSE_SMX_USER:-smx}"
+
+# Where your java installation lives
+export JAVA_HOME="/usr/lib/jvm/java-1.6.0-openjdk-amd64"
+
+# You can pass some parameters to java here if you wish to
+#JAVA_OPTS="-Xminf0.1 -Xmaxf0.3"
+export JAVA_MIN_MEM=1024M
+export JAVA_MAX_MEM=1024M
+
+# Use JAVA_OPTS to set java.library.path for libtcnative.so
+#JAVA_OPTS="-Djava.library.path=/usr/lib64"
+
+# You can change your tomcat locale here
+#LANG="en_US"
+
+# If you wish to further customize your tomcat environment,
+# put your own definitions here
+# (i.e. LD_LIBRARY_PATH for some jdbc drivers)

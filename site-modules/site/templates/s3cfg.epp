@@ -1,0 +1,23 @@
+[default]
+access_key = <%= hiera('aws_access_key') %>
+acl_public = False
+bucket_location = US
+debug_syncmatch = False
+default_mime_type = binary/octet-stream
+delete_removed = False
+dry_run = False
+encrypt = False
+force = False
+host_base = s3.amazonaws.com
+host_bucket = %(bucket)s.s3.amazonaws.com
+human_readable_sizes = False
+preserve_attrs = True
+proxy_host =
+proxy_port = 0
+recv_chunk = 4096
+secret_key = <%= hiera('aws_secret_key') %>
+send_chunk = 4096
+simpledb_host = sdb.amazonaws.com
+use_https = False
+verbosity = WARNING
+socket_timeout = 120

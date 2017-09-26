@@ -1,0 +1,9 @@
+<%- | String[1] $cts_url
+| -%>
+# -*- coding: utf-8 -*-
+
+cts = {
+    "version" : 5,
+    "endpoint" : "<%= $cts_url %>/api/cts/",
+    "getCapabilities" : "<%= $cts_url %>/api/cts/?request=GetCapabilities"
+}

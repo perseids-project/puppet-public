@@ -1,0 +1,11 @@
+#!/usr/bin/ruby
+
+DUPLICITY_OPTIONS="--s3-use-new-style --no-encryption"
+SRC_BUCKET="s3+http://<%= @s3_bucket %>"
+
+folder=ARGV.shift
+
+ENV['AWS_ACCESS_KEY_ID'] = "<%= @aws_access_key %>"
+ENV['AWS_SECRET_ACCESS_KEY'] = "<%= @aws_secret_key %>"
+cmdline = "/usr/bin/duplicity #{DUPLICITY_OPTIONS} list-current-files #{SRC_BUCKET}/#{folder}"
+puts `#{cmdline}`

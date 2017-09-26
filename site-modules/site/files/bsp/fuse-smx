@@ -1,0 +1,115 @@
+#!/bin/bash
+#
+# fuse-smx      This shell script takes care of starting and stopping
+#               Apache ServiceMix
+#
+# chkconfig: - 80 20
+#
+### BEGIN INIT INFO
+# Provides: fuse-smx
+# Required-Start: $network $syslog
+# Required-Stop: $network $syslog
+# Default-Start:
+# Default-Stop:
+# Description: FUSE implementation for Apache ServiceMix
+# Short-Description: start and stop ServiceMix
+### END INIT INFO
+#
+
+## Source function library.
+#. /etc/rc.d/init.d/functions
+# Source LSB function library.
+#
+#
+# this section commented out by masover, 9 April 2012
+#
+#
+# if [ -r /lib/lsb/init-functions ]; then
+#     . /lib/lsb/init-functions
+# else
+#     exit 1
+# fi
+
+NAME="$(basename $0)"
+
+# For SELinux we need to use 'runuser' not 'su'
+if [ -x "/sbin/runuser" ]; then
+    SU="/sbin/runuser -m"
+else
+    SU="/bin/su"
+fi
+
+# Path to the fuse-smx start and stop scripts
+FUSE_SMX_SCRIPT="/usr/local/BSP_0.9/fuse-esb-7.0.0.fuse-061/bin"
+
+# Define the fuse-smx username
+FUSE_SMX_USER="${FUSE_SMX_USER:-smx}"
+
+# Get instance specific config file
+if [ -r "/etc/${NAME}" ]; then
+    . /etc/${NAME}
+fi
+
+RETVAL="0"
+
+# See how we were called.
+function start() {
+    echo -n "Starting ${NAME}: "
+    if [ "$RETVAL" != "0" ]; then 
+# 
+# log_failure_msg and log_success_msg assume installation of redhat-lsb RPM; not standard on Linode Fedora 14
+#  cf. http://rpm.pbone.net/index.php3?stat=3&search=redhat-lsb&srodzaj=3
+#  cf. http://refspecs.linuxbase.org/LSB_3.1.0/LSB-Core-generic/LSB-Core-generic/iniscrptfunc.html
+#
+#
+# as of 9 APril 2012, modified by masover in four (4) places below to manually construct log messages
+#
+#      log_failure_msg
+      echo "Failure; return value = ${RETVAL} " 
+      return
+    fi
+    [ "$RETVAL" -eq "0" ] && $SU -l $FUSE_SMX_USER -c "${FUSE_SMX_SCRIPT}/start" || RETVAL="4"
+    if [ "$RETVAL" -eq "0" ]; then 
+#        log_success_msg
+      echo "Success; return value = ${RETVAL} " 
+    else
+#        log_failure_msg "Error code ${RETVAL}"
+        echo "Failure; return value = ${RETVAL} " 
+    fi
+}
+
+function stop() {
+    echo -n "Stopping ${NAME}: "
+    [ "$RETVAL" -eq "0" ] && $SU -l $FUSE_SMX_USER -c "${FUSE_SMX_SCRIPT}/stop" || RETVAL="4"
+    if [ "$RETVAL" -eq "0" ]; then
+#        log_success_msg
+        RETVAL="0"
+      echo "Success; return value = ${RETVAL} " 
+    fi
+}
+
+function usage()
+{
+   echo "Usage: $0 {start|stop|restart}"
+   RETVAL="2"
+}
+
+# See how we were called.
+RETVAL="0"
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+      usage
+      ;;
+esac
+
+exit $RETVAL

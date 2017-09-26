@@ -1,0 +1,7 @@
+#!/bin/bash
+DB=<%= hiera('sosol::db::name') %>
+SQL_FILE="/mnt/data/sosol_db_backup/${DB}.sql.`/bin/date -Iminutes`"
+ENDPOINT=<%= hiera('sosol::db::endpoint') %>
+USER=<%= hiera('sosol::db::user') %>
+PASSWORD=<%= hiera('sosol::db::password') %>
+/usr/bin/mysqldump -h ${ENDPOINT} -u${USER} -p${PASSWORD} --single-transaction ${DB} |/bin/gzip > ${SQL_FILE}.gz

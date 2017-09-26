@@ -1,0 +1,27 @@
+#!/bin/sh
+LOCKFILE=/tmp/sync_backup.lock
+DUPLICITY_OPTIONS="--s3-use-new-style --no-encryption --full-if-older-than <%= @full_backup_every %> --volsize 250"
+JOB=$1
+SRC=$2
+DEST="s3+http://<%= @s3_bucket %>/${JOB}"
+export AWS_ACCESS_KEY_ID="<%= @aws_access_key %>"
+export AWS_SECRET_ACCESS_KEY="<%= @aws_secret_key %>"
+
+if [ ! -e ${LOCKFILE} ]; then
+   trap "rm -f ${LOCKFILE}; exit" INT TERM EXIT
+   touch ${LOCKFILE}
+   echo Syncing at `/bin/date +%FT%H:%M`...
+   /usr/bin/duplicity ${DUPLICITY_OPTIONS} ${SRC} ${DEST}
+   # Remove expired backups
+   /usr/bin/duplicity remove-older-than <%= @prune_backups_after %> ${DUPLICITY_OPTIONS} --force ${DEST}
+   # Clean up old cache files
+   /usr/bin/duplicity cleanup --no-encryption --extra-clean --force ${DEST}
+   rm ${LOCKFILE}
+   trap - INT TERM EXIT
+else
+   echo "Script is already running, ignoring"
+fi
+
+# Reset AWS ENV variables
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=

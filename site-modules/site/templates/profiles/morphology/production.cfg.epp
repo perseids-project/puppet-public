@@ -1,0 +1,26 @@
+<%- | 
+  String[1] $morpheus_path,
+  String[2] $morpheus_stemlib_path,
+  String[3] $aramorph_url,
+  String[4] $whitakers_url,
+  String[5] $lex_grc_url,
+  String[6] $lex_lat_url,
+| -%>
+ENGINES = "morpheusgrc,morpheuslat,aramorph,whitakerLat,hazm"
+ENGINES_MORPHEUSGRC_CNAME = "morphsvc.lib.engines.MorpheusLocalEngine.MorpheusLocalEngine"
+ENGINES_MORPHEUSLAT_CNAME = "morphsvc.lib.engines.MorpheusLocalEngine.MorpheusLocalEngine"
+ENGINES_ARAMORPH_CNAME = "morphsvc.lib.engines.AramorphRemoteEngine.AramorphRemoteEngine"
+ENGINES_WHITAKERLAT_CNAME = "morphsvc.lib.engines.WhitakersRemoteEngine.WhitakersRemoteEngine"
+ENGINES_HAZM_CNAME = "morphsvc.lib.engines.HazmEngine.HazmEngine"
+PARSERS_MORPHEUS_PATH = "<%= $morpheus_path %>"
+PARSERS_MORPHEUS_STEMLIBDIR = "<%= $morpheus_stemlib_path %>"
+PARSERS_MORPHEUS_URI = "org.perseus:tools:morpheus.v1"
+PARSERS_ARAMORPH_URI = "net.alpheios:tools:aramorph.v2"
+PARSERS_ARAMORPH_REMOTE_URL = "<%= $aramorph_url %>"
+PARSERS_WHITAKERS_URI = "net.alpheios:tools:wordsxml.v1"
+PARSERS_WHITAKERS_REMOTE_URL = "<%= $whitakers_url %>"
+PARSERS_HAZM_URI = "org.PersDigUMD:tools.hazm.v2"
+SERVICES_LEXICAL_ENTITY_SVC_GRC="<%= $lex_grc_url %>"
+SERVICES_LEXICAL_ENTITY_SVC_LAT="<%= $lex_lat_url %>"
+SERVICES_LEXICAL_ENTITY_BASE_URI="http://data.perseus.org/collections/"
+

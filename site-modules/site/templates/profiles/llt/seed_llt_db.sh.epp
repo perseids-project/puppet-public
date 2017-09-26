@@ -1,0 +1,7 @@
+<%- | String[1] $jruby_version,
+| -%>
+#!/bin/sh
+rvm use <%= $jruby_version %>
+export JRUBY_OPTS='--2.0 -X-C -J-Xmx1024m -J-XX:+UseConcMarkSweepGC'
+rake db:prometheus:create -h localhost
+rake db:prometheus:seed -h localhost

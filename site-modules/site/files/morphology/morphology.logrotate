@@ -1,0 +1,8 @@
+/srv/BSP-local-store/logs/security/securityevent.log {
+  copytruncate
+  daily
+  rotate 1
+  compress
+  missingok
+  size 100M
+}

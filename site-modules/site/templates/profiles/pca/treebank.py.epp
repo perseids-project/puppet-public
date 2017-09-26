@@ -1,0 +1,20 @@
+<%- | String[1] $sosol_url,
+      String[1] $llt_url,
+      String[1] $editor_url,
+      String[1] $cts_url
+| -%>
+# -*- coding: utf-8 -*-
+
+treebank = {
+    "endpoint.create" : "<%= $sosol_url %>/dmm_api/create/item/TreebankCite/DOC_REPLACE",
+    "endpoint.create.linked_urn" : "<%= $sosol_url %>/cite_publications/create_from_linked_urn/Treebank/COLLECTION_REPLACE?init_value[]=URL_REPLACE",
+
+    "tokenization.endpoint" : "<%= $llt_url %>/segtok",
+    "tokenization.params" : "xml inline split-tokens|splitting merge-tokens|merging shift-tokens|shifting inputtext|text remove_node[] go_to_root ns",
+    "tokenization.xslt" : "/apps/static/xslt/segtok_to_tb.xsl",
+
+    "oa.xslt" : "/apps/static/xslt/wrap_treebank.xsl",
+
+    "editor.url" : "<%= $editor_url %>",
+    "workListUrl" : "<%= $cts_url %>"
+}

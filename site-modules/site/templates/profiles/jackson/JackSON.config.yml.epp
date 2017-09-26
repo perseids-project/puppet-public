@@ -1,0 +1,45 @@
+<%- | String[1] $sparql_endpoint,
+      String[1] $base_url,
+      String[1] $data_prefix,
+| -%>
+addr: '0.0.0.0'
+
+# run on port
+port: 4567
+
+# directory to store data JSON
+path: 'data'
+
+# directory to store guard JSON ( data validators/config )
+guard: 'guard'
+
+# directory to store JSON templates
+templates: 'templates'
+
+# directory to store apps
+apps: 'public/apps'
+
+# directory to store tmp files
+tmp: 'tmp'
+
+# accept requests from
+allow_origin: '*'
+
+# url to sparql endpoint
+sparql: <%= $sparql_endpoint %>
+
+# baseurl of deployment
+# uncomment this and set if deployment environment is behind a proxy
+#base_url: <%= $base_url %>
+
+# data prefix for data object urns
+uri_prefix: <%= $data_prefix %>
+
+# src verb
+src_verb: 'http://purl.org/dc/terms/source'
+
+# ref verb
+ref_verb: 'http://purl.org/dc/terms/references'
+
+# debug output
+debug: false 

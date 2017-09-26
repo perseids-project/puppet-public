@@ -1,0 +1,3 @@
+<%- | String[1] $tomcat_pwd | -%>
+#!/bin/sh
+curl --user admin:<%= $tomcat_pwd %> --upload-file build/libs/citefusioncoll-0.2.0.war "http://localhost:8080/manager/deploy?path=/citefusioncoll-0.2.0&update=true"

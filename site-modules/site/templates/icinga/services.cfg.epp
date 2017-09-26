@@ -1,0 +1,190 @@
+<%- | String[1] $monitor_password,
+| -%>
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Disk
+    check_command         check_nrpe!check_disk!1024M!512M
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Shellshock
+    check_command         check_nrpe!check_shellshock!dummy
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Load
+    check_command         check_nrpe!check_load!20,20,20!25,25,25
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Puppet
+    check_command         check_nrpe!check_puppet_local!3600
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Chkrootkit
+    check_command         check_nrpe!check_log_smart!/var/log/chkrootkit.log!infected!'not infected',60001,Suckit!1440
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   SSH
+    check_command         check_ssh!10
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Disk_transfer
+    check_command         check_nrpe!check_diskstat!200000000!100000000
+    use                   every_5_mins
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Swap space
+    check_command         check_nrpe!check_swap!30%!10%
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Swap activity
+    check_command         check_nrpe!check_swapping!dummy
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Puppet_branch
+    check_command         check_nrpe!check_puppet_branch!master
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Puppetlock
+    check_command         check_nrpe!check_puppetlock!dummy
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   OS_Release
+    check_command         check_nrpe!check_os_release!14.04
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Free memory
+    check_command         check_nrpe!check_free_memory!10!5
+    use                   every_5_mins
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Free inodes
+    check_command         check_nrpe!check_free_inodes!/!10!5
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        all, !virtual
+    service_description   Time sync
+    check_command         check_nrpe!check_time_sync!dummy
+    use                   every_5_mins
+}
+
+define service {
+    host_name             sosol
+    service_description   Git repos
+    check_command         check_nrpe!check_motherfsck!dummy
+    use                   every_hour
+}
+
+define service {
+    hostgroup_name        db
+    service_description   MySQL
+    check_command         check_nrpe!check_mysql!monitor!<%= $monitor_password %>
+    use                   every_5_mins
+}
+
+define service {
+    hostgroup_name        pg
+    service_description   PostgreSQL
+    check_command         check_nrpe!check_pgsql!dummy
+    use                   every_5_mins
+}
+
+define service {
+    host_name             sosol
+    service_description   Git backup
+    check_command         check_nrpe!check_log_smart!/var/log/duplicity.git.log!'Error'!'Errors 0'!1440
+    use                   every_hour
+}
+
+define service {
+    host_name             sosol
+    service_description   Sosol DB local backup
+    check_command         check_nrpe!check_log_smart!/var/log/sosol_backup.log!Error!dummy!1440
+    use                   every_hour
+}
+
+define service {
+    host_name             sosol
+    service_description   Sosol DB S3 backup
+    check_command         check_nrpe!check_log_smart!/var/log/check_sosol_backup.log!Error!dummy!1440
+    use                   every_hour
+}
+
+define service {
+    host_name             sosol
+    service_description   Free inodes on gitrepo
+    check_command         check_nrpe!check_free_inodes!/mnt/gitrepo!10!5
+    use                   every_hour
+}
+
+define service {
+    host_name             orchestrator
+    service_description   AWS resources
+    check_command         check_aws_resources!8!2
+    use                   every_5_mins
+}
+
+define service {
+    host_name             annotation
+    service_description   Marmotta local backup
+    check_command         check_nrpe!check_log_smart!/var/log/marmotta_backup.log!Error!dummy!1440
+    use                   every_hour
+}
+
+define service {
+    host_name             annotation
+    service_description   Marmotta S3 backup
+    check_command         check_nrpe!check_log_smart!/var/log/check_marmotta_backup.log!Error!dummy!1440
+    use                   every_hour
+}
+
+define service {
+    host_name             hook
+    service_description   Hook local backup
+    check_command         check_nrpe!check_log_smart!/var/log/hook_backup.log!Error!dummy!1440
+    use                   every_hour
+}
+
+define service {
+    host_name             hook
+    service_description   Hook S3 backup
+    check_command         check_nrpe!check_log_smart!/var/log/check_hook_backup.log!Error!dummy!1440
+    use                   every_hour
+}

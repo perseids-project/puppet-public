@@ -1,0 +1,67 @@
+<h1>Perseids API Terms of Service</h1>
+<p>Last updated 29-March-2016</p>
+
+<h2>General terms</h2>
+<p>Thank you for using the Perseids API. By using the API you agree to the terms below.</p>
+<p>By accepting this API Terms of Service (TOS) or by accessing or using the Perseids API, you agree to be bound by this API TOS. If you are entering into this API TOS on behalf of a company or other legal entity, you represent that you have the authority to bind such entity to this API TOS. Whether you are acting as an individual or on behalf of another entity, the terms "you" and "yours" apply to the person or entity accepting these terms.</p>
+<p>If you do not have such authority, or if you do not agree with this API TOS, you may not use the Perseids API. You acknowledge that this API TOS is a contract governing your use of the Perseids API.</p>
+<p>The Perseids developers reserve the right to update and change these terms without notice. All changes will be clearly indicated.</p>
+<p>Please direct all questions to the developer team via email to perseids "at" tufts.edu</p>
+<h2>License</h2>
+<p>As long as you have accepted and comply with these terms of service, Perseids grants you a limited, non-exclusive, non-assignable, non-transferable license to use the APIs to develop, test, and support any software application, website, or product, and to integrate the Perseids APIs with your Application. Your license is subject to the limitations set forth in this document.</p>
+
+<h2>Principles &amp; Best Practices</h2>
+<p>Please respect User Data and User Privacy at all times. We ask that you:</p>
+<ol>
+<li>offer Users a means of downloading and/or deleting their data;</li>
+<li>make all copyright and reuse policies clear and prominent;</li>
+<li>do not facilitate or encourage the publishing of private or confidential User information;</li>
+<li>do not deliver, allow or enable the delivery of unsolicited email through your application;</li>
+<li>respect the intellectual property of others;</li>
+<li>do not represent your use as an endorsement by Perseids, the Perseids developers, the Perseus Digital Library, or Tufts University, (unless explicit permission has been given);</li>
+<li>ensure that your application complies with all applicable laws and regulations;</li>
+<li>be respectful of the Perseids community standards, particularly the rights of minors and local privacy laws.</li>
+</ol>
+
+<h2>Limitations &amp; Restrictions</h2>
+<p>The following identifies limitations on use related to the Perseids API:</p>
+<ol>
+<li>Be aware that Perseids is part of an ongoing, research project. As such, we reserve the right to make changes to the API. A good faith effort to give notice will be made. <li>
+<li>You may not use the Perseids API in violation of any law or regulation, or rights of any person, including but not limited to intellectual property rights, rights of privacy, or rights of personality, or in any manner inconsistent with this API TOS.</li>
+<li>You may not use the Perseids API or any other technology in a manner that accesses or uses any information beyond what is allowed by this API TOS. You may not use the API to break or circumvent security measures; disrupt service; transmit viruses or malware; intercept or steal data; etc. </li>
+<li>Commercial Use. You may charge for your Application.</li>
+<li>Advertising. You may place advertisements on and around your Application. However, your advertisements may not resemble or be reasonably likely to confuse users as being a Perseids Service message; in addition you may not:
+  <ol>
+    <li>Use Data or any content from Perseids in any advertisements or for purposes of targeting advertisements, in your Application or elsewhere; or</li>
+    <li>Use contact information obtained from Perseids (including email addresses) to contact Perseids users outside of Perseids without their express permission.</li>
+  </ol>
+</li>
+<li>Rate Limits. Perseids reserves the right to impose restrictions on rate limits, use types and method calls. You will not attempt to exceed or circumvent limitations on access, calls and use of Perseids API, or otherwise use the Perseids API in a manner that exceeds reasonable request volume, constitutes excessive or abusive usage, or otherwise fails to comply or is inconsistent with any part of this API TOS or the Documentation. If Perseids reasonably believes that you have exceeded your rate limits or have attempted to circumvent the rate limit or authentication systems, your ability to utilize the API may be temporarily suspended or permanently revoked. Perseids may monitor your usage of the API in order to improve our service and to ensure compliance with our policies.</li>
+<li>Distribution of your application. You may not distribute or allow access to the Perseids APIs to anyone other than, if applicable, the organization on whose behalf you entered into this API TOS. Anyone who wants to access our APIs must agree to be bound by this API TOS.</li>
+</ol>
+<h2>Acknowledgements</h2>
+<p>We ask that you acknowledge Perseids as the source of data using a text link and /or logo. We further request an acknowledgement linking to the home page of Perseids ("http://www.perseids.org")  in all documentation and related materials. Please contact the developers (via email to perseids "at" tufts.edu) if further guidance is required.</p>
+<h2>Unlawful Activity</h2>
+<p>You agree not to use this API to engage in unlawful or deceptive activity. You agree not to violate the rights of any third party and obey all applicable local laws.</p>
+<p>This includes but is not limited to transmitting threatening or libelous content; impersonating others; transmitting unsolicited content; transmitting content that infringes on copyrights or other agreements; transmitting harmful content such as malware; disrupting services; promoting illegal or restricted activities; using this format to harm or harass others; using this format to harm minors.</p>
+<h2>Rights & Ownership</h2>
+<p>The Perseids API code is offered under a GNU General Public License Version 3.0. This agreement does not convey any ownership rights to you to the Perseids API or platform. 
+Perseids data is offered under a Creative Commons CC-BY-SA license.</p>
+
+<h2>Termination</h2>
+<p>You may terminate this API TOS by discontinuing use of the Perseids API.</p>
+The Perseids developers may change, suspend or discontinue the Perseids API and suspend or terminate your use of the API and/or the Perseids platform at any time and for any reason, without notice. Without limiting the foregoing, we may limit your Application's access to the Perseids API if it, in our sole discretion, may negatively affect our service or our ability to provide our service.
+
+<h2>Disclaimers</h2>
+<p>The Perseids API and Perseids platform are provided on an "as is" and "as available" basis without warranty of any kind, whether express or implied. Perseids does not warrant that the Perseids API will be uninterrupted, timely, secure, error-free or virus-free.</p>
+<p>Perseids assumes no liability for damages arising out of the use of the Perseids API either to you or any third party.</p>
+<p>You agree to defend, hold harmless and indemnify Perseids from and against any third party claim arising from or in any way related to your or your users' use of the Perseids API or data.</p>
+
+
+
+
+
+
+
+
+

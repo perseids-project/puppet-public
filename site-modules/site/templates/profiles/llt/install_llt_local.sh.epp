@@ -1,0 +1,6 @@
+<%- | String[1] $jruby_version,
+| -%>
+#!/bin/sh
+rvm use <%= $jruby_version %>
+export JRUBY_OPTS='--2.0 -X-C -J-Xmx1024m -J-XX:+UseConcMarkSweepGC'
+bundle install

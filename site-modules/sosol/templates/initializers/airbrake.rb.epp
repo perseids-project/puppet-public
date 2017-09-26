@@ -1,0 +1,4 @@
+<%- | String[1] $airbrake_api_key | -%>
+Airbrake.configure do |config|
+  config.api_key = '<%= $airbrake_api_key %>'
+end
